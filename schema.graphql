@@ -18,6 +18,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   post(description: String!, url: String!): Link!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  vote(linkId: Int!): Vote
 }
 
 type Query {
@@ -29,4 +30,9 @@ type User {
   id: Int!
   links: [Link!]!
   name: String!
+}
+
+type Vote {
+  link: Link!
+  user: User!
 }
