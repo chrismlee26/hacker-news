@@ -1,4 +1,4 @@
-import { extendType, objectType } from "nexus";
+import { extendType, nonNull, objectType, stringArg } from "nexus";   
 import { NexusGenObjects } from "../../nexus-typegen";  
 
 export const Link = objectType({
@@ -30,6 +30,32 @@ export const LinkQuery = extendType({ // Extend "Query" root type, adding a new 
           type: "Link",
           resolve(parent, args, context, info) { // Resolver function of "feed" query: "resolve". arcs = "parent", "args", "context", "info"
               return links;
+          },
+      });
+  },
+});
+
+export const LinkMutation = extendType({ // Extend "Mutation" type to add "root field"
+  type: "Mutation",    
+  definition(t) {
+      t.nonNull.field("post", { // Mutation "post" retuned a non-nullable "link" object
+          type: "Link",  
+          args: { // Define args to mutation
+              description: nonNull(stringArg()), // Non-null
+              url: nonNull(stringArg()), // Non-null
+          },
+          
+          resolve(parent, args, context) {    
+              const { description, url } = args; // args = "description" and "url"
+              
+              let idCount = links.length + 1; // Generate new "id" values for "link" objects & add "link" to "links" array and return "links" array
+              const link = {
+                  id: idCount,
+                  description: description,
+                  url: url,
+              };
+              links.push(link);
+              return link;
           },
       });
   },
