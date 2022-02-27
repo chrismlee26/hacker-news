@@ -18,8 +18,9 @@ model Link {
   createdAt   DateTime @default(now()) // "@default" specifies default value ("DateTime") for "createdAt" column
   description String
   url         String
-  postedBy    User?    @relation(fields: [postedById], references: [id])
+  postedBy    User?    @relation(name: "PostedBy", fields: [postedById], references: [id]) // 1: Join table with "Users"
   postedById  Int?
+  voters      User[]   @relation(name: "Votes") // 2
 }
 
 // User Model:
@@ -28,5 +29,6 @@ model User {
   name     String
   email    String @unique
   password String
-  links    Link[]
+  links    Link[] @relation(name: "PostedBy") // 1
+  votes    Link[] @relation(name: "Votes") // 2: Join table witjh "Link"
 }
