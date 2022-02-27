@@ -6,7 +6,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Use SQLite for db connection 
+// Use SQLite for db connection
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
@@ -18,4 +18,15 @@ model Link {
   createdAt   DateTime @default(now()) // "@default" specifies default value ("DateTime") for "createdAt" column
   description String
   url         String
+  postedBy    User?    @relation(fields: [postedById], references: [id])
+  postedById  Int?
+}
+
+// User Model:
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  links    Link[]
 }
