@@ -6,6 +6,7 @@ export const Link = objectType({
     t.nonNull.int("id"); // Add an 'id' field, type Int
     t.nonNull.string("description"); // Add a 'descriptions field', type String
     t.nonNull.string("url"); // Add a 'url field', type String
+    t.nonNull.dateTime("createdAt"); // DateTime scaler 
     t.field("postedBy", { // Add "postedBy" field on "User"
       type: "User",
       resolve(parent, args, context) { // Fetch "link" record using "parent.id" then associated "user" by chaining "postedBy()"
