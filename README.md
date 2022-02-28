@@ -63,12 +63,21 @@ query {
 
 #### Mutations:
 
-- `post` : Allows authenticated users to create a new link
+- `post` : Allows authenticated users to create a new link. To submit a post:
+
+```
+mutation {
+  post(url: "www.prisma.io", description: "Next-generation Node.js and TypeScript ORM") {
+    id
+  }
+}
+```
+
 - `signup` : Create an account for new user. To create a new user:
 
 ```
 mutation {
-  signup(name: "Sarah", email: "sarah@prisma.io", password: "graphql") {
+  signup(name: "Chris", email: "chris@sample.io", password: "graphql") {
     token
     user {
       id
@@ -77,8 +86,60 @@ mutation {
 }
 ```
 
+- For Signup, copy the authentication token and paste on the `Headers` tab.
+  [x] | Authentication | Bearer **TOKEN_ID** |
+  | --- | --- | --- |
+
+- Invoke the post resolver and validate the provided JWT. With `authentication` header in place, send the following mutation to the server.
+
+```
+mutation {
+  post(url: "nexusjs.org", description: "Code-First GraphQL schemas for JavaScript/TypeScript") {
+    id
+    description
+    url
+    postedBy {
+      id
+      name
+      email
+    }
+  }
+}
+```
+
 - `login` : Login existing user
+
+```
+mutation {
+  login(email: "chris@sample.io", password: "graphql") {
+    token
+    user {
+      email
+      links {
+        url
+        description
+      }
+    }
+  }
+}
+```
+
 - `vote` : Allows authenticated users to vote for an existing link
+
+```
+mutation {
+  vote(linkId: _LINK_ID_) {
+    link {
+      url
+      description
+    }
+    user {
+      name
+      email
+    }
+  }
+}
+```
 
 #### Subscriptions:
 
