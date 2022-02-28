@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType, stringArg } from "nexus";   
+import { extendType, idArg, nonNull, objectType, stringArg, intArg } from "nexus";
 
 export const Link = objectType({
   name: "Link", // Define the name of the type
@@ -32,7 +32,11 @@ export const LinkQuery = extendType({
     t.nonNull.list.nonNull.field("feed", {
       type: "Link",
       args: {
+        // Filter
         filter: stringArg(), // Filter optional
+        // Pagination - Limit-Offset
+        skip: intArg(), // optional integer
+        take: intArg(),
       },
       resolve(parent, args, context) { // Find and return all "Link" records in db using context.prisma
         const where = args.filter // if "filter", construct "{where}" as filter condition
@@ -45,6 +49,8 @@ export const LinkQuery = extendType({
           : {}; // If no "filter", "where" condition will be empty object
         return context.prisma.link.findMany({
             where,
+            skip: args?.skip as number | undefined, // Typecasting in case of undefined
+            take: args?.take as number | undefined,
         });
       },
     });
