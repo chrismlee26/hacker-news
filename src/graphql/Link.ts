@@ -31,12 +31,28 @@ export const LinkQuery = extendType({
   definition(t) {
     t.nonNull.list.nonNull.field("feed", {
       type: "Link",
-      resolve(parent, args, context) {  
-          return context.prisma.link.findMany(); // Find and return all "Link" records in db using context.prisma
+      args: {
+        filter: stringArg(), // Filter optional
+      },
+      resolve(parent, args, context) { // Find and return all "Link" records in db using context.prisma
+        const where = args.filter // if "filter", construct "{where}" as filter condition
+          ? {
+            OR: [ // "description" &/ "url" have substring to match filter string
+              { description: { contains: args.filter } },
+              { url: { contains: args.filter } },
+            ],
+            }
+          : {}; // If no "filter", "where" condition will be empty object
+        return context.prisma.link.findMany({
+            where,
+        });
       },
     });
   },
 });
+
+
+
 
 export const LinkMutation = extendType({
   type: "Mutation",

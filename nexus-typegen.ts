@@ -166,6 +166,11 @@ export interface NexusGenArgTypes {
       linkId: number; // Int!
     }
   }
+  Query: {
+    feed: { // args
+      filter?: string | null; // String
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
