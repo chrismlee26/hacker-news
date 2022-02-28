@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": {
+    "name": "Chris Lee",
+    "email": "chrismlee26@gmail.com",
+    "url": "https://chrislee.wtf"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",

@@ -1,7 +1,9 @@
 # Hacker-News Clone
 
-- GraphQL, Apollo, TypeScript
+- #### v1.0.0
+- GraphQL, Apollo-Server, Prisma, TypeScript-Node
 - API Project
+- Project includes Pagination, Filter, Sort & Subscription (WebSockets: Apollo-Server)
 
 ## How to Run Project:
 
